@@ -33,7 +33,7 @@ form {
 	margin-left : 280px;
 	max-height:300px;
     } 
- input[type=text], input[type=password] {   
+ input[type=text]{   
         width: 100%;   
         margin: 8px 0;  
         padding: 12px 20px;   
