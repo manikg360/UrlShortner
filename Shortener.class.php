@@ -1,14 +1,7 @@
-<?php
-/** 
- * Class to create short URLs and decode shortened URLs
- * 
- * @author CodexWorld.com <contact@codexworld.com> 
- * @copyright Copyright (c) 2018, CodexWorld.com
- * @url https://www.codexworld.com
- */ 
+<?php 
 class Shortener
 {
-    protected static $chars = "abcdfghjkmnpqrstvwxyz|ABCDFGHJKLMNPQRSTVWXYZ|0123456789";
+    protected static $chars = "abcdfghijklmnopqrstuvwxyz|ABCDFGHIJKLMNOPQRSTUVWXYZ|0123456789";
     protected static $table = "short_urls";
     protected static $checkUrlExists = false;
     protected static $codeLength = 7;
@@ -26,10 +19,6 @@ class Shortener
             throw new Exception("No URL was supplied.");
         }
 
-        if($this->validateUrlFormat($url) == false){
-            throw new Exception("URL does not have a valid format.");
-        }
-
         if(self::$checkUrlExists){
             if (!$this->verifyUrlExists($url)){
                 throw new Exception("URL does not appear to exist.");
@@ -42,10 +31,6 @@ class Shortener
         }
 
         return $shortCode;
-    }
-
-    protected function validateUrlFormat($url){
-        return filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED);
     }
 
     protected function verifyUrlExists($url){
@@ -82,10 +67,12 @@ class Shortener
         $sets = explode('|', self::$chars);
         $all = '';
         $randString = '';
+		
         foreach($sets as $set){
-            $randString .= $set[array_rand(str_split($set))];
+			$randString .= $set[array_rand(str_split($set))];
             $all .= $set;
         }
+	
         $all = str_split($all);
         for($i = 0; $i < $length - count($sets); $i++){
             $randString .= $all[array_rand($all)];
